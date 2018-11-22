@@ -1,0 +1,27 @@
+- name: Add Nextcloud backup script
+  template:
+    src: backup_nextcloud.sh.j2
+    dest: /usr/local/bin/backup_nextcloud.sh
+    owner: root
+    group: root
+    mode: '0700'
+    backup: yes
+
+- name: Add Nextcloud backup repo init script
+  template:
+    src: backup_init_nextcloud.sh.j2
+    dest: /usr/local/bin/backup_init_nextcloud.sh
+    owner: root
+    group: root
+    mode: '0700'
+    backup: yes
+
+- name: Add Nextcloud backup cron job daily at 0330
+  cron:
+    name: Nextcloud backup
+    minute: 30
+    hour: 3
+    job: /usr/local/bin/backup_nextcloud.sh
+
+- name: Ensure Nextcloud restic repositories exist
+  command: /usr/local/bin/backup_init_nextcloud.sh

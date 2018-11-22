@@ -1,0 +1,22 @@
+- name: Clone the Nextcloud repository
+  git:
+    repo: 'https://github.com/jfredrickson/tensouth-nextcloud.git'
+    dest: "{{ containers_home }}/tensouth-nextcloud"
+
+- name: Set Nextcloud environment variables
+  template:
+    src: env.j2
+    dest: "{{ nextcloud_home }}/.env"
+    owner: deploy
+    group: deploy
+    mode: '0660'
+    backup: yes
+
+- name: Start Nextcloud containers
+  docker_service:
+    project_src: "{{ nextcloud_home }}"
+
+# - name: Restart Traefik
+#   docker_service:
+#     project_src: "{{ containers_home }}/tensouth-proxy/traefik"
+#     restarted: true

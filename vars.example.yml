@@ -1,0 +1,4 @@
+containers_home: /srv/containers
+
+nextcloud_home: "{{ containers_home }}/tensouth-nextcloud/nextcloud"
+nextcloud_db_password: somepassword

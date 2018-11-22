@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Set AWS authentication info and restic password (see tensouth-config for backups.env source)
+source /root/backups.env
+
+# Initialize restic repositories (restic won't touch anything if repos already exist)
+restic --repo s3:s3.amazonaws.com/$S3_BUCKET/nextcloud_app init
+restic --repo s3:s3.amazonaws.com/$S3_BUCKET/nextcloud_db init
+
+# If repos exist, exit code will be error (1); always return 0 instead
+exit 0
